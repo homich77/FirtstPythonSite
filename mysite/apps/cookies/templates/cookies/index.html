@@ -1,0 +1,21 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'cookies/style.css' %}" />
+
+{% if cookies_list %}
+    <table>
+    {% for cookie in cookies_list %}
+        <tr>
+            <td>
+                <img alt="Картинка)" src="{% static cookie.img %}" />
+            </td>
+            <td>
+                <span class="b">{{ cookie.name }}</span><br>{{ cookie.description }}
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+        {#<li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>#}
+{% else %}
+    <p>No cookies are available.</p>
+{% endif %}
