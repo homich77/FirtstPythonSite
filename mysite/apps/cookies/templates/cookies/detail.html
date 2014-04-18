@@ -1,0 +1,17 @@
+{% load staticfiles %}
+{% load media %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'cookies/bootstrap.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'cookies/style.css' %}" />
+
+<form>
+    <div class="container">
+        <div class="page-header">
+            <h1>{{ cookie.name }}</h1>
+        </div>
+        <div class="detail">
+            {{ cookie.description }}
+        </div>
+        <img class="pull-right img_detail" alt="{{ cookie.name }}_image" src="{% media cookie.img %}" />
+    </div>
+ </form>

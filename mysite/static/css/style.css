@@ -1,0 +1,12 @@
+.b{
+   font-weight: bold;
+}
+img{
+    height: 100px;
+}
+input:focus{
+    background-color: #FFE4B5;
+}
+input[type=button]{
+    background-color: #FFE4B5;
+}

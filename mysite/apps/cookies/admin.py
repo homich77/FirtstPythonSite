@@ -7,7 +7,7 @@ class CookieForm(forms.ModelForm):
 
 class CookieAdmin(admin.ModelAdmin):
     search_fields = ['name']
-    list_display = ('name', 'img', 'description',)
+    list_display = ('name', 'description', 'admin_image', )
     form = CookieForm
 
 admin.site.register(Cookie, CookieAdmin)

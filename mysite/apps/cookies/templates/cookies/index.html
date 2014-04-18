@@ -1,21 +1,46 @@
 {% load staticfiles %}
+{% load media %}
 
+<link rel="stylesheet" type="text/css" href="{% static 'cookies/bootstrap.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'cookies/style.css' %}" />
 
-{% if cookies_list %}
-    <table>
-    {% for cookie in cookies_list %}
-        <tr>
-            <td>
-                <img alt="Картинка)" src="{% static cookie.img %}" />
-            </td>
-            <td>
-                <span class="b">{{ cookie.name }}</span><br>{{ cookie.description }}
-            </td>
-        </tr>
-    {% endfor %}
-    </table>
+<div class="container">
+    <div class="page-header controls-row">
+        <h1 class="span4">Search cookies</h1>
+        <div class="span7">
+            <form class="form-inline">
+              <input type="text" class="input-small" placeholder="Email">
+              <input type="password" class="input-small" placeholder="Пароль">
+              <label class="checkbox">
+                <input type="checkbox"> Запомнить меня
+              </label>
+              <button type="submit" class="btn">Войти</button>
+            </form>
+        </div>
+    </div>
+    <form action="{% url 'cookies:search' %}" method="post" class="form-search">
+    {% csrf_token %}
+        <input type="text" name="search_cookie" class="search-query" /><button type="submit" class="btn" >Search</button>
+        <span>Finded: {{ cookies_list|length }} cookie{{ cookies_list|pluralize:",s" }}</span>
+
+        {% if cookies_list %}
+            <table class="table table-hover">
+                {% for cookie in cookies_list %}
+                    <tr>
+                        <td class="w100">
+                            <a href="{% url 'cookies:detail' cookie.pk %}"><img alt="{{ cookie.name }}_image" src="{% media cookie.img %}" class="h100" /></a>
+                        </td>
+                        <td>
+                            <a href="{% url 'cookies:detail' cookie.pk %}"><h4 class="media-heading">{{ cookie.name }}</h4></a><br>{{ cookie.description }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+    </form>
+</div>
+
+
         {#<li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>#}
 {% else %}
-    <p>No cookies are available.</p>
+    <p class="text-error">No cookies are available.</p>
 {% endif %}
