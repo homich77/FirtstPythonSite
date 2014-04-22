@@ -1,5 +1,6 @@
 from django.db import models
 from templatetags.media import media
+from django.contrib.auth.models import User
 
 class Cookie(models.Model):
     name = models.CharField(max_length=64)
@@ -14,11 +15,9 @@ class Cookie(models.Model):
     admin_image.allow_tags = True
     admin_image.short_description = 'Image'
 
-'''class User(models.Model):
-    login = models.CharField(max_length=30)
-    email = models.CharField(max_length=30)
-    ava = models.ImageField()
-    about_yourself = models.CharField()
-
-class Recall(models.Model):
-    pass'''
+class Review(models.Model):
+    user_id = models.ForeignKey(User)
+    cookie_id = models.ForeignKey(Cookie)
+    text = models.TextField()
+    mark = models.IntegerField(max_length=5)
+    date = models.DateTimeField()
