@@ -1,4 +1,3 @@
-
 input[type="text"]:focus, input[type="password"]:focus{
     background-color: #FFE4B5 !important;
     border-color: darkgreen;
@@ -46,7 +45,7 @@ input[type=button], input[type=submit]{
     text-align: justify;
     text-indent: 1.5em;
 }
-a{
+a, .dg{
   color:darkgreen;
 }
 a.mybtn{
@@ -66,4 +65,73 @@ h1{
 }
 .w100{
     width: 100px;
+}
+
+
+
+dl.star-rating ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: 100px;
+    height: 20px;
+    position: relative;
+    background: url(../img/stars.png);
+}
+dl.star-rating li {
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+dl.star-rating li a {
+    display: block;
+    width: 20px;
+    height: 20px;
+    text-indent: -9999px;
+    position: absolute;
+    text-decoration: none;
+    z-index: 10;
+}
+dl.star-rating li a:hover {
+    background: url(../img/stars.png) left center;
+    left: 0;
+    z-index: 2;
+}
+dl.star-rating a.star1 {
+  left: 0;
+}
+  dl.star-rating a.star1:hover {
+  width: 20px;
+}
+dl.star-rating a.star2 {
+  left: 20px;
+}
+dl.star-rating a.star2:hover {
+  width: 40px;
+}
+dl.star-rating a.star3 {
+  left: 40px;
+}
+dl.star-rating a.star3:hover {
+  width: 60px;
+}
+dl.star-rating a.star4 {
+  left: 60px;
+}
+dl.star-rating a.star4:hover {
+  width: 80px;
+}
+dl.star-rating a.star5 {
+  left: 80px;
+}
+dl.star-rating a.star5:hover {
+  width: 100px;
+}
+dl.star-rating li.current {
+    background: url(../img/stars.png) left bottom;
+    height: 20px;
+    z-index: 1;
+}
+dl.star-rating ol>li a:hover {
+  text-indent: 110px;
 }

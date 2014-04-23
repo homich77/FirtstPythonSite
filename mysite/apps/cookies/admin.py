@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib import admin
-from apps.cookies.models import Cookie
+from .models import Cookie
 
 class CookieForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea(attrs={'cols': 80, 'rows': 10}))

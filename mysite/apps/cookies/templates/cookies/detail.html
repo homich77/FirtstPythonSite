@@ -13,5 +13,11 @@
             {{ cookie.description }}
         </div>
         <img class="pull-right img_detail" alt="{{ cookie.name }}_image" src="{% media cookie.img %}" />
+        {% if user.is_authenticated %}
+
+            <div>
+
+            </div>
+        {% endif %}
     </div>
  </form>

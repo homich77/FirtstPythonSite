@@ -21,3 +21,6 @@ class Review(models.Model):
     text = models.TextField()
     mark = models.IntegerField(max_length=5)
     date = models.DateTimeField()
+
+    def __unicode__(self):
+        return self.text

@@ -1,3 +1,4 @@
+from django.forms.models import modelformset_factory
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -15,8 +16,25 @@ def user_login(request):
                 auth.login(request, user)
                 return HttpResponseRedirect(reverse('cookies:search'))
         except:
-            error_message = 'Enter correct data'
+            error_message = 'The username and password were incorrect.'
     return render_to_response('login/login.html', {'error_message': error_message}, RequestContext(request))
 
+#@login_required
 def edit(request):
-    pass
+    if request.method == 'GET':
+        return render(request, "login/edit.html")
+    else:
+        try:
+            user = request.user
+            user.first_name = request.POST["inputFirstName"]
+            user.last_name = request.POST["inputLastName"]
+            user.email = request.POST["inputEmail"]
+            user.save()
+            return render_to_response('login/edit.html', {'success_message': 'Data has been successfully saved'}, RequestContext(request))
+        except:
+            error_message = "Have error"
+        return render_to_response('login/edit.html', {'error_message': error_message}, RequestContext(request))
+
+def user_logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect(reverse('main:search'))

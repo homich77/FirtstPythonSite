@@ -1,6 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User, UserManager
+from django.contrib.auth.models import User
 
-class UserDetail(User):
-    user = models.OneToOneField(User)
-    ava = models.ImageField(upload_to= '.')
+#User.add_to_class('ava', models.ImageField(upload_to='.'))

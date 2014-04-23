@@ -1,6 +1,8 @@
-from django import forms
-from django.utils.translation import ugettext as _
+from django.contrib.auth.models import User
+from django.forms import ModelForm
+from django.contrib.auth.forms import UserChangeForm
 
-class UserLoginForm(forms.Form):
-    username = forms.CharField(label=_(u'inputUserName'), max_length=30)
-    password = forms.CharField(label=_(u'inputPassword'), widget=forms.PasswordInput)
+class UserChangeForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username', 'email']
