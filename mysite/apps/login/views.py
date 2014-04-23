@@ -14,7 +14,7 @@ def user_login(request):
             user = auth.authenticate(username=username, password=password)
             if user and user.is_active:
                 auth.login(request, user)
-                return HttpResponseRedirect(reverse('cookies:search'))
+                return HttpResponseRedirect(reverse('main:main_view'))
         except:
             error_message = 'The username and password were incorrect.'
     return render_to_response('login/login.html', {'error_message': error_message}, RequestContext(request))
@@ -37,4 +37,4 @@ def edit(request):
 
 def user_logout(request):
     auth.logout(request)
-    return HttpResponseRedirect(reverse('main:search'))
+    return HttpResponseRedirect(reverse('main:main_view'))

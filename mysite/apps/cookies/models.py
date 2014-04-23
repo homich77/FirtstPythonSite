@@ -16,7 +16,7 @@ class Cookie(models.Model):
     admin_image.short_description = 'Image'
 
 class Review(models.Model):
-    user_id = models.ForeignKey(User)
+    user_id = models.ForeignKey(User, related_name='user')
     cookie_id = models.ForeignKey(Cookie)
     text = models.TextField()
     mark = models.IntegerField(max_length=5)
@@ -24,3 +24,9 @@ class Review(models.Model):
 
     def __unicode__(self):
         return self.text
+
+    '''class Meta:
+        ordering = ['date']'''
+'''    class Meta:
+        unique_together = (("user_id", "cookie_id"),)
+'''
