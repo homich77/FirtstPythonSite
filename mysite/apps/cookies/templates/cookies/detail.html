@@ -31,9 +31,16 @@
             {% if cookie.review_set.all %}
                 {% for review in cookie.review_set.all|dictsortreversed:"date" %}
                     <div class="row review">
+                        <div class="span1">
+                            {% if review.user_id.user_detail.ava %}
+                                <img alt="profile_image" src="{% media review.user_id.user_detail.ava %}" />
+                            {% else %}
+                                <img alt="profile_image" src="{% media 'no_image.gif' %}" />
+                            {% endif %}
+                        </div>
                         <div class="span2">
                             <div class="dg ">
-                                <b>{{ review.user_id.first_name }} {{ review.user_id.last_name }}</b>
+                                <a class="b" href="{% url 'login:profile' review.user_id.username %}">{{ review.user_id.first_name }} {{ review.user_id.last_name }}</a>
                             </div>
                             Mark: <b>{{ review.mark }}</b>
                             <br>

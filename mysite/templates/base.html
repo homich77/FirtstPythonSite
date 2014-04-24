@@ -46,6 +46,10 @@
                     {% endif %}
                 </div>
             </div>
+            <form class="form-horizontal">
+                <a href="{% url 'main:main_view' %}" class="btn">Main page</a>
+                <a href="{% url 'cookies:search' %}" class="btn">Find cookies</a>
+            </form>
 {% comment %}
             <div class="navbar-inner">
                 <div class="container">
