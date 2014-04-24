@@ -10,11 +10,11 @@ from apps.cookies.models import Review, Cookie
 
 def search(request):
     template = "cookies/index.html"
-    if 'search_cookie' in request.POST and request.POST['search_cookie']:
+    if request.method == 'GET':
+        cookies_list = Cookie.objects.annotate(average_mark=Avg('review__mark'))
+    elif 'search_cookie' in request.POST and request.POST['search_cookie']:
         search_cookie = request.POST['search_cookie']
         cookies_list = Cookie.objects.filter(name__icontains = search_cookie)
-    else:
-        cookies_list = Cookie.objects.annotate(average_mark=Avg('review__mark'))
     return render_to_response(template, {'cookies_list': cookies_list}, context_instance = RequestContext(request))
 
 

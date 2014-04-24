@@ -1,15 +1,12 @@
-{% load staticfiles %}
+{% extends 'base.html' %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'cookies/css/bootstrap.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'cookies/css/style.css' %}" />
+{% block title %}Log in{% endblock %}
+{% block form_name %}Log in{% endblock %}
 
-<div class="container">
-    <div class="page-header">
-        <h1>Login</h1>
-    </div>
-
+{% block content %}
     {% if error_message %}<p class="text-error"><strong>{{ error_message }}</strong></p>{% endif %}
     {% if user.is_anonymous %}
+
     <form class="form-horizontal" method="post" action="{% url 'login:user_login' %}">
     {% csrf_token %}
         <div class="control-group">
@@ -27,6 +24,6 @@
         </div>
     </form>
     {% else %}
-        Welcome to mysite, {{ user.username }}
+        Welcome to MySite, {{ user.username }}
     {% endif %}
-</div>
+{% endblock %}

@@ -1,33 +1,32 @@
-{% load staticfiles %}
+{% extends 'base.html' %}
 {% load media %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'cookies/css/bootstrap.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'cookies/css/style.css' %}" />
+{% block title %}{{ cookie.name }}{% endblock %}
+{% block form_name %}{{ cookie.name }}{% endblock %}
 
-<form method="post" action="{% url 'cookies:vote' cookie.id %}">
-{% csrf_token %}
-    <div class="container">
-        <div class="page-header">
-            <h1>{{ cookie.name }}</h1>
-        </div>
+{% block content %}
+    <form method="post" action="{% url 'cookies:vote' cookie.id %}">
+    {% csrf_token %}
         <div>
             <div class="detail">
                 {{ cookie.description }}
             </div>
             <img class="pull-right img_detail" alt="{{ cookie.name }}_image" src="{% media cookie.img %}" />
         </div>
-
         <div style="clear: both;">
 
             {% if user.is_authenticated %}
                 <h2>Add review:</h2> Mark: <select class="input-mini" name="mark">
+
                 {% for x in 5|get_reverse_range %}
                     <option>{{ x }}</option>
                 {% endfor %}
+
                 </select><br>
                 <textarea style="width: 80%;" rows="3" name="description"></textarea><br>
                 <button type="submit" class="btn">Add review</button>
             {% endif %}
+
             <h2>Reviews:</h2>
             {% if cookie.review_set.all %}
                 {% for review in cookie.review_set.all|dictsortreversed:"date" %}
@@ -44,26 +43,10 @@
                             {{ review.text }}
                         </div>
                     </div>
-
-                    {% comment %}<table style="margin-left: 40px;">
-                        <tr>
-                           <td colspan="2"><b class="dg" style="font-size: 110%">{{ review.user_id.first_name }} {{ review.user_id.last_name }}</b> <span style="font-size: 90%">Mark: {{ review.mark }}</span></td>
-                        </tr>
-                        <tr>
-                            <td style="padding-left:20px;">
-
-                            </td>
-                            <td>
-                                {{ review.text }}
-                            </td>
-                        </tr>
-                    </table>
-                    {% endcomment %}
                 {% endfor %}
             {% else %}
                 <p class="text-error">No reviews are available.</p>
             {% endif %}
         </div>
-
-    </div>
- </form>
+     </form>
+{% endblock %}

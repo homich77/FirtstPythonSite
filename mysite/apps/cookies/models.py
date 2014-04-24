@@ -25,8 +25,7 @@ class Review(models.Model):
     def __unicode__(self):
         return self.text
 
-    '''class Meta:
-        ordering = ['date']'''
-'''    class Meta:
-        unique_together = (("user_id", "cookie_id"),)
-'''
+    class Meta:
+        pass
+        #ordering = ['date']
+        #unique_together = (("user_id", "cookie_id"),)

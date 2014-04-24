@@ -1,44 +1,10 @@
-{% load staticfiles %}
+{% extends 'base.html' %}
 {% load media %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'cookies/css/bootstrap.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'cookies/css/style.css' %}" />
+{% block title %}Search cookies{% endblock %}
+{% block form_name %}Search cookies{% endblock %}
 
-<script type="text/javascript" src="{% static 'cookies/js/jquery.js' %}"></script>
-<script type="text/javascript" src="{% static 'cookies/js/bootstrap.js' %}"></script>
-
-
-<div class="container">
-    <div class="page-header">
-        <div class="row">
-            <h1 class="span4">Search cookies</h1>
-            {% if user.is_anonymous %}
-                <div class="span5 pull-right">
-                    <form action="{% url 'login:user_login' %}" method="post" class="form-inline pull-right">
-                    {% csrf_token %}
-                        <input name="inputUserName" type="text" class="input-small" placeholder="User name">
-                        <input name="inputPassword" type="password" class="input-small" placeholder="Password">
-                        {#<label class="checkbox"><input type="checkbox"> Remember me</label>#}
-                        <button type="submit" class="btn">Enter</button>
-                    </form>
-                </div>
-            {% else %}
-                <div class="span5 pull-right color_yellow">
-                    <form class="pull-right">
-                        <div class="btn-group">
-                            <a class="btn btn-primary" href="#"> <i class="icon-user icon-white"> </i> {{ user.username }}</a>
-                            <a class="btn btn-primary mybtn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{% url 'login:edit' %}"><i class="icon-pencil"></i> Edit</a></li>
-                                {#<li class="divider"></li>#}
-                                <li><a href="{% url 'login:user_logout' %}"><i class="icon-off"></i> Exit</a></li>
-                            </ul>
-                        </div>
-                    </form>
-                </div>
-            {% endif %}
-        </div>
-    </div>
+{% block content %}
     <form action="{% url 'cookies:search' %}" method="post" class="form-search">
     {% csrf_token %}
         <input type="text" name="search_cookie" class="search-query" style="margin-right: 5px;" /><button type="submit" class="btn" >Search</button>
@@ -59,9 +25,8 @@
                     </tr>
                 {% endfor %}
             </table>
+        {% else %}
+            <p class="text-error">No cookies are available.</p>
+        {% endif %}
     </form>
-</div>
-        {#<li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>#}
-{% else %}
-    <p class="text-error">No cookies are available.</p>
-{% endif %}
+{% endblock %}
