@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load media %}
+
+{% block title %}User profile{% endblock %}
+{% block form_name %}User profile{% endblock %}
+
+{% block head %}
+    <style type="text/css">
+        label{
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    {% if user_data %}
+       <div class="row">
+            <label class="span2">Profile picture</label>
+            <div class="span3">
+                {% if user_data.user_detail.ava %}
+                    <img alt="profile_image" style="height: 100px" src="{% media user_data.user_detail.ava %}" />
+                {% else %}
+                    <img alt="profile_image" src="{% media 'no_image.gif' %}" />
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <label class="span2">First name</label>
+            <div class="span3">
+                {{ user_data.first_name }}
+            </div>
+        </div>
+        <div class="row">
+            <label class="span2">Last name</label>
+            <div class="span3">
+                {{ user_data.last_name }}
+            </div>
+        </div>
+        <div class="row">
+            <label class="span2">Email</label>
+            <div class="span3">
+                {{ user_data.email }}
+            </div>
+        </div>
+        <div class="row">
+            <label class="span2">About yourself</label>
+            <div class="span3">
+                {{ user_data.user_detail.about }}
+            </div>
+        </div>
+
+        <h2>Best cookies</h2>
+        {% if best_cookies %}
+            <ul>
+            {% for cookie in best_cookies %}
+                <li><a class="b" href="{% url 'cookies:detail' cookie.id %}">{{ cookie.name }}</a> {{ cookie.avg_mark }}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-error">No marks</p>
+        {% endif %}
+
+        <h2>Latest reviews</h2>
+        {% if latest_reviews %}
+            <ul>
+            {% for review in latest_reviews %}
+                <li><b>{{ review.date|date:'d.m.Y H:i' }}</b> {{ review.text }}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-error">No reviews</p>
+        {% endif %}
+    {% endif %}
+{% endblock %}

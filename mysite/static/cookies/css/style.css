@@ -1,0 +1,140 @@
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus{
+    background-color: #FFE4B5 !important;
+    border-color: darkgreen;
+}
+input[type=button], input[type=submit]{
+    background-color: darkgreen !important;
+    color: #FFE4B5 !important;
+}
+.btn{
+  color: #FFE4B5;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: darkgreen;
+  background-image: -moz-linear-gradient(top, #FFE4B5, darkgreen);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FFE4B5), to(darkgreen));
+  background-image: -webkit-linear-gradient(top, #FFE4B5, darkgreen);
+  background-image: -o-linear-gradient(top, #FFE4B5, darkgreen);
+  background-image: linear-gradient(to bottom, #FFE4B5, darkgreen);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFE4B5', endColorstr='darkgreen', GradientType=0);
+  border-color: #FFE4B5 darkgreen darkgreen;
+  border-color: rgba(255, 228, 181, 1.0) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: darkgreen;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+.btn:hover{
+    color: #FFE4B5;
+    background-color: darkgreen;
+    *background-color: darkgreen;
+}
+
+
+
+
+.table-hover tr:hover td{
+    background-color: #FFE4B5 !important;
+}
+.img_detail{
+    height: 200px;
+}
+.detail{
+    float:left;
+    width: 80%;
+    text-align: justify;
+    text-indent: 1.5em;
+}
+a, .dg{
+  color:darkgreen;
+}
+.page-header{
+    background-color: darkgreen;
+    padding: 10px;
+}
+
+h1, h2{
+    color: darkgreen;
+}
+.page-header h1{
+    color: #FFE4B5;
+    text-shadow: 0 2px 2px #FFE4B5;
+}
+.color_yellow{
+    color: #FFE4B5;
+}
+.w100{
+    width: 100px;
+}
+div.review {
+    margin-bottom: 15px;
+}
+
+
+
+dl.star-rating ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: 100px;
+    height: 20px;
+    position: relative;
+    background: url(../img/stars.png);
+}
+dl.star-rating li {
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+dl.star-rating li a {
+    display: block;
+    width: 20px;
+    height: 20px;
+    text-indent: -9999px;
+    position: absolute;
+    text-decoration: none;
+    z-index: 10;
+}
+dl.star-rating li a:hover {
+    background: url(../img/stars.png) left center;
+    left: 0;
+    z-index: 2;
+}
+dl.star-rating a.star1 {
+  left: 0;
+}
+  dl.star-rating a.star1:hover {
+  width: 20px;
+}
+dl.star-rating a.star2 {
+  left: 20px;
+}
+dl.star-rating a.star2:hover {
+  width: 40px;
+}
+dl.star-rating a.star3 {
+  left: 40px;
+}
+dl.star-rating a.star3:hover {
+  width: 60px;
+}
+dl.star-rating a.star4 {
+  left: 60px;
+}
+dl.star-rating a.star4:hover {
+  width: 80px;
+}
+dl.star-rating a.star5 {
+  left: 80px;
+}
+dl.star-rating a.star5:hover {
+  width: 100px;
+}
+dl.star-rating li.current {
+    background: url(../img/stars.png) left bottom;
+    height: 20px;
+    z-index: 1;
+}
+dl.star-rating ol>li a:hover {
+  text-indent: 110px;
+}
