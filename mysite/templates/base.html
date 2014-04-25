@@ -27,6 +27,9 @@
                                 <input name="inputPassword" type="password" class="input-small" placeholder="Password">
                                 {#<label class="checkbox"><input type="checkbox"> Remember me</label>#}
                                 <button type="submit" class="btn">Enter</button>
+                                <div>
+                                    <a href="{% url 'login:create' %}">Sign up</a>
+                                </div>
                             </form>
                         </div>
                     {% else %}
@@ -38,7 +41,7 @@
                                     <ul class="dropdown-menu">
                                         <li><a href="{% url 'login:edit' %}"><i class="icon-pencil"></i> Edit</a></li>
                                         {#<li class="divider"></li>#}
-                                        <li><a href="{% url 'login:user_logout' %}"><i class="icon-off"></i> Exit</a></li>
+                                        <li><a href="{% url 'login:user_logout' %}"><i class="icon-off"></i> Log out</a></li>
                                     </ul>
                                 </div>
                             </form>
@@ -82,6 +85,8 @@
             </div>
 
 {% endcomment %}
+            {% if success_message %}<p class="text-success">{{ success_message }}</p>{% endif %}
+            {% if error_message %}<p class="text-error">{{ error_message }}</p>{% endif %}
             {% block content %}
             {% endblock %}
 

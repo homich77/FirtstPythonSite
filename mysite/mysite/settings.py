@@ -91,3 +91,4 @@ STATICFILES_FINDERS = (
 )
 
 #AUTH_USER_MODEL = 'login.User'
+DJANGO_SETTINGS_MODULE = 'mysite.settings'

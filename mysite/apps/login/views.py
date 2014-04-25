@@ -1,39 +1,58 @@
 from django.core.urlresolvers import reverse
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
 from django.contrib import auth
+from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect
+#from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.models import User
 from apps.login.models import UserDetail
 from apps.cookies.models import Cookie, Review
 from apps.login.forms import UserForm, UserDetailForm
 
-from django.db.models import Avg
-
+from django.core.urlresolvers import resolve
+from get_referer import get_referer_view
 
 def user_login(request):
+    template = 'login/login.html'
+
     error_message = ''
-    if request.method == 'POST': #and form.is_valid():
+    if request.method == "GET":
+        error_message = ''
+    else:
         try:
             username = request.POST['inputUserName']
             password = request.POST['inputPassword']
             user = auth.authenticate(username=username, password=password)
+
             if user and user.is_active:
                 auth.login(request, user)
-                return HttpResponseRedirect(reverse('main:main_view'))
+                return redirect(get_referer_view(request))
         except:
             error_message = 'The username and password were incorrect.'
-    return render_to_response('login/login.html', {'error_message': error_message}, RequestContext(request))
+    return render_to_response(template, {'error_message': error_message}, context_instance = RequestContext(request))
+
+def create(request):
+    template = 'login/create.html'
+    error_message = ''
+    form = UserCreationForm()
+    if request.method == "POST":
+        try:
+            form = UserCreationForm(request.POST)
+            form.save()
+            return redirect(reverse("login:user_login"), RequestContext(request))
+        except:
+            error_message = 'You have mistake'
+    return render_to_response(template, {'form': form, 'error_message': error_message}, RequestContext(request))
 
 
 def profile(request, user_name):
     user_obj = get_object_or_404(User, username = user_name)
 
     best_cookies = Cookie.objects.filter(review__user_id=user_obj)\
-                       .annotate(avg_mark=Avg('review__mark'))
-                       #.filter('avg_mark__gte=4')\
-                       #.order_by("-avg_mark")[:10]
+                       .filter(review__mark__gte=4)\
+                       .order_by("-review__mark")[:10]
     latest_reviews = Review.objects.filter(user_id=user_obj).order_by("-date")[:10]
     context = {'user_data': user_obj,
                'best_cookies': best_cookies,
@@ -51,12 +70,13 @@ def edit_view(request):
 
 
 def edit_save(request):
-    user_form = UserForm(request.POST)
-    detail_form = UserDetailForm(request.POST, request.FILES)
+    user_form = UserForm(request.POST, instance=request.user)
+    detail, created = UserDetail.objects.get_or_create(user_id=request.user)
+    detail_form = UserDetailForm(request.POST, request.FILES, instance=detail)
     if user_form.is_valid():
-        user_form.save()
         detail_form.save()
-    return HttpResponseRedirect(reverse("login:edit"), {'user_form': user_form, "detail_form": detail_form}, RequestContext(request))
+        user_form.save()
+    return HttpResponseRedirect(reverse("login:edit"), RequestContext(request))
     '''try:
         user_obj = request.user
         user_obj.first_name = request.POST["inputFirstName"]
@@ -78,4 +98,4 @@ def edit_save(request):
 
 def user_logout(request):
     auth.logout(request)
-    return HttpResponseRedirect(reverse('main:main_view'))
+    return redirect(get_referer_view(request))

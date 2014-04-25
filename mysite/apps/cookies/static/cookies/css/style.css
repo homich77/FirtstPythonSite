@@ -1,3 +1,10 @@
+.errorlist{
+    color: #b94a48 !important;
+}
+.page-header a{
+    color: #FFE4B5;
+    cursor: pointer;
+}
 li{
    line-height: 30px;
 }
@@ -7,8 +14,12 @@ li{
 .b{
     font-weight: bold;
 }
-input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, textarea:focus{
+
+input[type="text"], input[type="password"], input[type="email"], textarea{
     background-color: #FFE4B5 !important;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, textarea:focus{
     border-color: darkgreen;
 }
 input[type=button], input[type=submit]{

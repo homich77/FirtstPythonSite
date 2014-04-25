@@ -22,6 +22,9 @@ class DetailView(generic.DetailView):
     model = Cookie
     template_name = 'cookies/detail.html'
 
+    def get_queryset(self):
+        return Cookie.objects.annotate(avg_mark=Avg('review__mark'))
+
 
 def vote(request, cookie_id):
     #if request.method == 'POST':

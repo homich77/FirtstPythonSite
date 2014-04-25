@@ -19,7 +19,12 @@
                         </td>
                         <td>
                             <h4 class="media-heading"><a href="{% url 'cookies:detail' cookie.pk %}">{{ cookie.name }}</a></h4>
-                            <span class="dg">Rating: {{ cookie.average_mark }}</span>
+                            <span class="dg">Rating:
+                                {% if cookie.average_mark %}
+                                    {{ cookie.average_mark }}
+                                {% else %}
+                                    0
+                                {% endif %}</span>
                             <br>{{ cookie.description }}
                         </td>
                     </tr>

@@ -4,9 +4,7 @@
 {% block form_name %}Log in{% endblock %}
 
 {% block content %}
-    {% if error_message %}<p class="text-error"><strong>{{ error_message }}</strong></p>{% endif %}
     {% if user.is_anonymous %}
-
     <form class="form-horizontal" method="post" action="{% url 'login:user_login' %}">
     {% csrf_token %}
         <div class="control-group">
@@ -24,6 +22,6 @@
         </div>
     </form>
     {% else %}
-        Welcome to MySite, {{ user.username }}
+        Welcome to mysite, {{ user.username }}
     {% endif %}
 {% endblock %}

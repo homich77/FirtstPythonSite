@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm, Textarea
 from apps.login.models import UserDetail
 
+from django.forms.widgets import PasswordInput
+
 class UserForm(ModelForm):
     class Meta:
         model = User

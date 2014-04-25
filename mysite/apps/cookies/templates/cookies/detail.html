@@ -8,14 +8,22 @@
     <form method="post" action="{% url 'cookies:vote' cookie.id %}">
     {% csrf_token %}
         <div>
+            <img class="pull-right img_detail" alt="{{ cookie.name }}_image" src="{% media cookie.img %}" />
+            <div>
+                <b>Rating:</b>
+                {% if cookie.avg_mark %}
+                    {{ cookie.avg_mark }}
+                {% else %}
+                    0
+                {% endif %}
+            </div>
+            <br>
             <div class="detail">
                 {{ cookie.description }}
             </div>
-            <img class="pull-right img_detail" alt="{{ cookie.name }}_image" src="{% media cookie.img %}" />
         </div>
         <div style="clear: both;">
-
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and not user.review_set.count %}
                 <h2>Add review:</h2> Mark: <select class="input-mini" name="mark">
 
                 {% for x in 5|get_reverse_range %}
@@ -25,6 +33,8 @@
                 </select><br>
                 <textarea style="width: 80%;" rows="3" name="description"></textarea><br>
                 <button type="submit" class="btn">Add review</button>
+            {% elif user.review_set.count %}
+                <p>You have already voted</p>
             {% endif %}
 
             <h2>Reviews:</h2>

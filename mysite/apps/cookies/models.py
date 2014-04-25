@@ -26,6 +26,5 @@ class Review(models.Model):
         return self.text
 
     class Meta:
-        pass
         #ordering = ['date']
-        #unique_together = (("user_id", "cookie_id"),)
+        unique_together = (("user_id", "cookie_id"),)
