@@ -19,7 +19,7 @@ class Review(models.Model):
     user_id = models.ForeignKey(User, related_name='user')
     cookie_id = models.ForeignKey(Cookie)
     text = models.TextField()
-    mark = models.IntegerField(max_length=5)
+    mark = models.IntegerField(max_length=1)
     date = models.DateTimeField()
 
     def __unicode__(self):
