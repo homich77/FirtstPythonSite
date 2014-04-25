@@ -21,16 +21,17 @@ def user_login(request):
     if request.method == "GET":
         error_message = ''
     else:
-        try:
-            username = request.POST['inputUserName']
-            password = request.POST['inputPassword']
-            user = auth.authenticate(username=username, password=password)
+        if request.user.is_anonymous():
+            try:
+                username = request.POST['inputUserName']
+                password = request.POST['inputPassword']
+                user = auth.authenticate(username=username, password=password)
 
-            if user and user.is_active:
-                auth.login(request, user)
-                return redirect(get_referer_view(request))
-        except:
-            error_message = 'The username and password were incorrect.'
+                if user and user.is_active:
+                    auth.login(request, user)
+                    return redirect(get_referer_view(request))
+            except:
+                error_message = 'The username and password were incorrect.'
     return render_to_response(template, {'error_message': error_message}, context_instance = RequestContext(request))
 
 def create(request):
