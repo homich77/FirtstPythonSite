@@ -1,3 +1,7 @@
+.messages{
+    font-size: 110%;
+    font-weight: bold;
+}
 .errorlist{
     color: #b94a48 !important;
 }

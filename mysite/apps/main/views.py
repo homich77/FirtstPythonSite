@@ -6,6 +6,7 @@ from django.db.models import Avg
 
 
 class IndexView(generic.ListView):
+
     template_name = 'main/main.html'
     context_object_name = 'best_cookie_list'
 

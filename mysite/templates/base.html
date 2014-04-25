@@ -85,8 +85,16 @@
             </div>
 
 {% endcomment %}
-            {% if success_message %}<p class="text-success">{{ success_message }}</p>{% endif %}
-            {% if error_message %}<p class="text-error">{{ error_message }}</p>{% endif %}
+            {% comment %}{% if success_message %}<p class="text-success">{{ success_message }}</p>{% endif %}{% endcomment %}
+
+            <div class="messages">
+                {% if messages %}
+                    {% for message in messages %}
+                        <p {% if message.tags %} class="text-{{ message.tags }}"{% endif %}>{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
             {% block content %}
             {% endblock %}
 

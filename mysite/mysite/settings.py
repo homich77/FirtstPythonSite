@@ -92,3 +92,9 @@ STATICFILES_FINDERS = (
 
 #AUTH_USER_MODEL = 'login.User'
 DJANGO_SETTINGS_MODULE = 'mysite.settings'
+
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.messages.context_processors.messages',
+    'django.contrib.auth.context_processors.auth',
+)

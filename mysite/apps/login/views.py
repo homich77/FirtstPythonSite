@@ -3,7 +3,6 @@ from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
 from django.contrib import auth
 from django.contrib.auth.forms import UserCreationForm
-from django.http import HttpResponseRedirect
 #from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.models import User
@@ -42,7 +41,7 @@ def create(request):
         try:
             form = UserCreationForm(request.POST)
             form.save()
-            return redirect(reverse("login:user_login"), RequestContext(request))
+            return redirect(reverse("login:user_login"))
         except:
             error_message = 'You have mistake'
     return render_to_response(template, {'form': form, 'error_message': error_message}, RequestContext(request))
@@ -52,8 +51,8 @@ def profile(request, user_name):
     user_obj = get_object_or_404(User, username = user_name)
 
     best_cookies = Cookie.objects.filter(review__user_id=user_obj)\
-                       .filter(review__mark__gte=4)\
-                       .order_by("-review__mark")[:10]
+                                 .filter(review__mark__gte=4)\
+                                 .order_by("-review__mark")[:10]
     latest_reviews = Review.objects.filter(user_id=user_obj).order_by("-date")[:10]
     context = {'user_data': user_obj,
                'best_cookies': best_cookies,
@@ -64,20 +63,27 @@ def profile(request, user_name):
 
 #@login_required
 def edit_view(request):
-    user_form = UserForm(instance=request.user)
-    detail = UserDetail.objects.get(user=request.user)
-    detail_form = UserDetailForm(instance=detail)
-    return render_to_response("login/edit.html", {'user_form': user_form, 'detail_form': detail_form}, RequestContext(request))
 
+    user_form = UserForm(request.POST, instance=request.user)
+    detail, created = UserDetail.objects.get_or_create(user_id=request.user)
+
+    detail_form = UserDetailForm(request.POST, request.FILES, instance=detail)
+
+    if user_form.is_valid():
+        detail_form.save()
+        user_form.save()
+
+    return redirect(reverse("login:edit"))
 
 def edit_save(request):
     user_form = UserForm(request.POST, instance=request.user)
     detail, created = UserDetail.objects.get_or_create(user_id=request.user)
     detail_form = UserDetailForm(request.POST, request.FILES, instance=detail)
+
     if user_form.is_valid():
         detail_form.save()
         user_form.save()
-    return HttpResponseRedirect(reverse("login:edit"), RequestContext(request))
+    return redirect(reverse("login:edit"))
     '''try:
         user_obj = request.user
         user_obj.first_name = request.POST["inputFirstName"]
