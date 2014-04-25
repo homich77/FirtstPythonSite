@@ -32,10 +32,11 @@ class DetailView(generic.DetailView):
 def vote(request, cookie_id):
     #if request.method == 'POST':
     cookie_obj = get_object_or_404(Cookie, pk=cookie_id)
-
+    error_message = ''
     mark = request.POST["mark"]
-    #TODO: validate mark
-    #if mark > 5
-    r = Review(user_id=request.user, cookie_id=cookie_obj, text=request.POST["description"], mark=mark, date=timezone.now())
-    r.save()
+    if 0 < mark < 5:
+        r = Review(user_id=request.user, cookie_id=cookie_obj, text=request.POST["description"], mark=mark, date=timezone.now())
+        r.save()
+    else:
+        error_message = 'Mark must be between 0 and 5'
     return HttpResponseRedirect(reverse('cookies:detail', args=(cookie_obj.id,)))
