@@ -1,3 +1,6 @@
 Django==1.6.2
-#pytz==2014.2
-PIL=='1.1.7'
+PIL==1.1.7
+argparse==1.2.1
+django-primate==0.1.1
+pytz==2014.2
+wsgiref==0.1.2
