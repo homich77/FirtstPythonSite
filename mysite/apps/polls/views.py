@@ -6,6 +6,7 @@ from django.utils import timezone
 
 from apps.polls.models import Choice, Question
 
+
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
     context_object_name = 'latest_question_list'
@@ -32,6 +33,7 @@ class ResultsView(generic.DetailView):
 
 def vote(request, question_id):
     p = get_object_or_404(Question, pk=question_id)
+
     try:
         selected_choice = p.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):

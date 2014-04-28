@@ -10,13 +10,13 @@ from apps.login.models import UserDetail
 from apps.cookies.models import Cookie, Review
 from apps.login.forms import UserForm, UserDetailForm
 
-from django.core.urlresolvers import resolve
 from get_referer import get_referer_view
+
 
 def user_login(request):
     template = 'login/login.html'
-
     error_message = ''
+
     if request.method == "GET":
         error_message = ''
     else:
@@ -33,10 +33,12 @@ def user_login(request):
                 error_message = 'The username and password were incorrect.'
     return render_to_response(template, {'error_message': error_message}, context_instance = RequestContext(request))
 
+
 def create(request):
     template = 'login/create.html'
     error_message = ''
     form = UserCreationForm()
+
     if request.method == "POST":
         try:
             form = UserCreationForm(request.POST)
@@ -54,6 +56,7 @@ def profile(request, user_name):
                                  .filter(review__mark__gte=4)\
                                  .order_by("-review__mark")[:10]
     latest_reviews = Review.objects.filter(user_id=user_obj).order_by("-date")[:10]
+
     context = {'user_data': user_obj,
                'best_cookies': best_cookies,
                'latest_reviews': latest_reviews
@@ -77,30 +80,13 @@ def edit_view(request):
 
 def edit_save(request):
     user_form = UserForm(request.POST, instance=request.user)
-    detail, created = UserDetail.objects.get_or_create(user_id=request.user)
+    detail = UserDetail.objects.get(user_id=request.user)
     detail_form = UserDetailForm(request.POST, request.FILES, instance=detail)
 
     if user_form.is_valid():
         detail_form.save()
         user_form.save()
     return redirect(reverse("login:edit"))
-    '''try:
-        user_obj = request.user
-        user_obj.first_name = request.POST["inputFirstName"]
-        user_obj.last_name = request.POST["inputLastName"]
-        user_obj.email = request.POST["inputEmail"]
-
-        user_detail, created = UserDetail.objects.get_or_create(user=user_obj)
-        user_detail.ava.save(request.POST["inputLoadPic"], request.FILES, save=False)
-        user_detail.about = request.POST["inputAbout"]
-
-        user_detail.save()
-        user_obj.save()
-
-        return HttpResponseRedirect(reverse('login:edit'), {'success_message': 'Data has been successfully saved'})
-    except:
-        error_message = "Have error"
-    return HttpResponseRedirect(reverse("login:edit"), {'error_message': error_message})'''
 
 
 def user_logout(request):
