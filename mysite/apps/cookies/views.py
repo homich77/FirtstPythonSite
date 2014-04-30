@@ -5,6 +5,8 @@ from django.views import generic
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 
+from get_referer import get_referer_view
+
 from apps.cookies.models import Review, Cookie
 
 
@@ -23,6 +25,16 @@ def search(request):
                               RequestContext(request))
 
 
+def detail(request, pk):
+    cookie_list = Cookie.objects.get(pk=pk)
+    user_cookie = Cookie.objects.filter(pk=pk, review__user_id=request.user)
+    context = {
+        'cookie': cookie_list,
+        'user_cookie': user_cookie
+    }
+    return render_to_response('cookies/detail.html', context, RequestContext(request))
+
+
 class DetailView(generic.DetailView):
     model = Cookie
     template_name = 'cookies/detail.html'
@@ -36,11 +48,12 @@ class DetailView(generic.DetailView):
 def vote(request, cookie_id):
     cookie_obj = get_object_or_404(Cookie, pk=cookie_id)
     mark = request.POST["mark"]
-    if 0 < mark < 5:
+    if 0 < int(mark) < 6:
         r = Review(user_id=request.user, cookie_id=cookie_obj,
                    text=request.POST["description"],
                    mark=mark, date=timezone.now())
         r.save()
     else:
         messages.error(request, 'Mark must be between 0 and 5')
-    return redirect(reverse('cookies:detail', args=(cookie_obj.id)))
+        messages.error(request, mark)
+    return redirect(get_referer_view(request))

@@ -34,7 +34,7 @@
 
     <form enctype="multipart/form-data" action="{% url 'login:edit' %}" method="post">
     {% csrf_token %}
-        {{ form }}
+        {{ form.as_p }}
         <br>
         <input type="submit" value="Update" class="btn" />
     </form>
