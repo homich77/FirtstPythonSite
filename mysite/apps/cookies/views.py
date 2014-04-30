@@ -29,7 +29,8 @@ class DetailView(generic.DetailView):
     template_name = 'cookies/detail.html'
 
     def get_queryset(self):
-        #return Cookie.objects.annotate(avg_mark=Avg('review__mark'), mark_of_user=)
+        #return Cookie.objects.annotate(avg_mark=Avg('review__mark'),
+                                        # mark_of_user=)
         return Cookie.objects.annotate(avg_mark=Avg('review__mark'))
 
 

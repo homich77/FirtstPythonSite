@@ -1,5 +1,5 @@
 Django==1.6.2
 PIL==1.1.7
+South==0.8.4
 argparse==1.2.1
-django-primate==0.1.1
 wsgiref==0.1.2

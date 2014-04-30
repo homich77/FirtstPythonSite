@@ -231,4 +231,3 @@ class MultiModelForm(MultiForm):
         # TODO: Find a good API to wrap this in a db transaction
         # TODO: allow committing some forms but not others
         return self._combine('save', call=True, call_kwargs={'commit': commit})
-

@@ -71,8 +71,8 @@ def edit(request):
     form = UserMultiForm(instance=request.user)
     if request.method == 'POST':
         form = UserMultiForm(request.POST,
-                               request.FILES,
-                               instance=request.user)
+                             request.FILES,
+                             instance=request.user)
         if form.is_valid():
             form.save()
             messages.success(request, 'Data has been saved')

@@ -51,7 +51,8 @@ class UserMultiForm(MultiModelForm):
 
     def dispatch_init_instance(self, name, instance):
         if name == 'profile':
-            return super(UserMultiForm, self).dispatch_init_instance(name, instance)
+            return super(UserMultiForm, self).dispatch_init_instance(name,
+                                                                     instance)
         else:
             return instance
 
