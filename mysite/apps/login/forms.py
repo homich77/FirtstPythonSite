@@ -2,9 +2,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.forms import ModelForm, Textarea
 from collections import OrderedDict
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-from multiform import MultiForm, MultiModelForm
+from multiform import MultiModelForm
 
 from apps.login.models import UserProfile
 

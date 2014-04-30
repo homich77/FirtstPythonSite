@@ -1,5 +1,8 @@
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
+#from django.core.validators import MinValueValidator, MaxValueValidator
+
 from templatetags.media import media
 
 from .managers import CookieManager, ReviewManager
@@ -25,9 +28,10 @@ class Cookie(models.Model):
 class Review(models.Model):
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL)
     cookie_id = models.ForeignKey(Cookie)
-    text = models.TextField()
-    mark = models.IntegerField()
-    date = models.DateTimeField()
+    text = models.TextField("Description")
+    SCORE_CHOICES = [(i,i) for i in range(6)[::-1]]
+    mark = models.IntegerField(choices=SCORE_CHOICES)
+    date = models.DateTimeField(default=timezone.now())
 
     objects = ReviewManager()
 

@@ -37,12 +37,11 @@ def create(request):
     form = UserCreationForm()
 
     if request.method == "POST":
-        try:
-            form = UserCreationForm(request.POST)
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
             form.save()
+            messages.success(request, 'You have successfully registered')
             return redirect(reverse("login:user_login"))
-        except:
-            messages.error(request, 'You have mistake')
     return render_to_response(template,
                               {'form': form},
                               RequestContext(request))

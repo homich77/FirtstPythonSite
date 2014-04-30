@@ -3,11 +3,12 @@ from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
 from django.views import generic
 from django.core.urlresolvers import reverse
-from django.utils import timezone
+
 
 from get_referer import get_referer_view
 
 from apps.cookies.models import Review, Cookie
+from apps.cookies.forms import ReviewForm
 
 
 def search(request):
@@ -26,34 +27,25 @@ def search(request):
 
 
 def detail(request, pk):
-    cookie_list = Cookie.objects.get(pk=pk)
-    user_cookie = Cookie.objects.filter(pk=pk, review__user_id=request.user)
+    cookie = Cookie.objects.get(pk=pk)
+    user_cookie = None
+    if request.user.is_authenticated():
+        user_cookie = cookie.review_set.filter(user_id=request.user)
     context = {
-        'cookie': cookie_list,
-        'user_cookie': user_cookie
+        'cookie': cookie,
+        'user_cookie': user_cookie,
+        'form_review': ReviewForm()
     }
     return render_to_response('cookies/detail.html', context, RequestContext(request))
 
 
-class DetailView(generic.DetailView):
-    model = Cookie
-    template_name = 'cookies/detail.html'
-
-    def get_queryset(self):
-        #return Cookie.objects.annotate(avg_mark=Avg('review__mark'),
-                                        # mark_of_user=)
-        return Cookie.objects.all()
-
-
 def vote(request, cookie_id):
     cookie_obj = get_object_or_404(Cookie, pk=cookie_id)
-    mark = request.POST["mark"]
-    if 0 < int(mark) < 6:
-        r = Review(user_id=request.user, cookie_id=cookie_obj,
-                   text=request.POST["description"],
-                   mark=mark, date=timezone.now())
-        r.save()
-    else:
-        messages.error(request, 'Mark must be between 0 and 5')
-        messages.error(request, mark)
+    form = ReviewForm(request.POST)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save(request.user, cookie_obj)
+            messages.success(request, 'Your vote has been added')
+        else:
+            messages.error(request, form.errors)
     return redirect(get_referer_view(request))

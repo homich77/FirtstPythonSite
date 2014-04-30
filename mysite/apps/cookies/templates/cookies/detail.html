@@ -24,7 +24,9 @@
         </div>
         <div style="clear: both;">
             {% if user.is_authenticated and not user_cookie %}
-                <h2>Add review:</h2> Mark: <select class="input-mini" name="mark">
+                <h2>Add review:</h2>
+                {{ form_review }}
+                {% comment %}Mark: <select class="input-mini" name="mark">
 
                 {% for x in 5|get_reverse_range %}
                     <option>{{ x }}</option>
@@ -32,6 +34,8 @@
 
                 </select><br>
                 <textarea style="width: 80%;" rows="3" name="description"></textarea><br>
+                {% endcomment %}
+                <br>
                 <button type="submit" class="btn">Add review</button>
             {% elif user_cookie %}
                 <p class="text-success">You have already voted</p>
