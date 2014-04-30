@@ -50,7 +50,7 @@ def create(request):
 def profile(request, user_name):
     user_obj = get_object_or_404(User, username=user_name)
 
-    best_cookies = Cookie.objects.best(user_obj)
+    best_cookies = Cookie.objects.best_for_user(user_obj)
     latest_reviews = Review.objects.latest_review(user_obj)
 
     context = {'user_data': user_obj,

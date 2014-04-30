@@ -12,11 +12,16 @@ class CookieManager(models.Manager):
         cookie = super(CookieManager, self).get_query_set()
         return cookie.annotate(avg_mark=Avg('review__mark'))
 
-    def best(self, user_obj):
-        cookie = super(CookieManager, self).get_query_set()
+    def best(self):
+        cookie = self.get_query_set()
+        return cookie.filter(avg_mark__gte=self.rating_from)\
+                     .order_by("-avg_mark")[:self.rating_top]
+
+    def best_for_user(self, user_obj):
+        cookie = self.get_query_set()
         return cookie.filter(review__user_id=user_obj,
                              review__mark__gte=self.rating_from)\
-                     .order_by("-review__mark")[:self.rating_top]
+                     .order_by("-review__mark")  #[:self.rating_top]
 
 
 class ReviewManager(models.Manager):

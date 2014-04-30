@@ -91,7 +91,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-#AUTH_USER_MODEL = 'login.CustomUser'
 AUTH_PROFILE_MODULE = 'login.UserProfile'
 DJANGO_SETTINGS_MODULE = 'mysite.settings'
 
@@ -100,3 +99,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
     'django.contrib.auth.context_processors.auth',
 )
+
+
+LOGIN_URL = 'apps.main.views.'
