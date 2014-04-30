@@ -23,7 +23,7 @@
             </div>
         </div>
         <div style="clear: both;">
-            {% if user.is_authenticated and not user.review_set.count %}
+            {% if user.is_authenticated  %}
                 <h2>Add review:</h2> Mark: <select class="input-mini" name="mark">
 
                 {% for x in 5|get_reverse_range %}
@@ -34,7 +34,7 @@
                 <textarea style="width: 80%;" rows="3" name="description"></textarea><br>
                 <button type="submit" class="btn">Add review</button>
             {% elif user.review_set.count %}
-                <p>You have already voted</p>
+                <p class="text-success">You have already voted</p>
             {% endif %}
 
             <h2>Reviews:</h2>
@@ -42,8 +42,8 @@
                 {% for review in cookie.review_set.all|dictsortreversed:"date" %}
                     <div class="row review">
                         <div class="span1">
-                            {% if review.user_id.user_detail.ava %}
-                                <img alt="profile_image" src="{% media review.user_id.user_detail.ava %}" />
+                            {% if review.user_id.profile.ava %}
+                                <img alt="profile_image" src="{% media review.user_id.profile.ava %}" />
                             {% else %}
                                 <img alt="profile_image" src="{% media 'no_image.gif' %}" />
                             {% endif %}

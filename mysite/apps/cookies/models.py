@@ -1,6 +1,8 @@
+from django.conf import settings
 from django.db import models
 from templatetags.media import media
 from django.contrib.auth.models import User
+
 
 class Cookie(models.Model):
     name = models.CharField(max_length=64)
@@ -15,8 +17,9 @@ class Cookie(models.Model):
     admin_image.allow_tags = True
     admin_image.short_description = 'Image'
 
+
 class Review(models.Model):
-    user_id = models.ForeignKey(User, related_name='user')
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL)
     cookie_id = models.ForeignKey(Cookie)
     text = models.TextField()
     mark = models.IntegerField()

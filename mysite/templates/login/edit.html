@@ -15,8 +15,7 @@
 {% block form_name %}Edit user profile{% endblock %}
 
 {% block content %}
-    {% if success_message %}<p class="text-success"><strong>{{ success_message }}</strong></p>{% endif %}
-    {% if error_message %}<p class="text-error"><strong>{{ error_message }}</strong></p>{% endif %}
+    {% comment %}
     <form enctype="multipart/form-data" method="post" action="{% url 'login:save' %}">
     {% csrf_token %}
         {% if user_form %}
@@ -26,51 +25,17 @@
         <br>
         <button type="submit" class="btn">Save</button>
     </form>
-{% comment %}
-    <form method="post" class="form-horizontal" action="{% url 'login:save' %}">
-    {% csrf_token %}
-        <div class="control-group">
-            <label class="control-label" >Profile picture</label>
-            <div class="controls">
-                {% if user.user_detail.ava %}
-                    <img alt="profile_image" src="{% media user.user_detail.ava %}" />
-                {% else %}
-                    <img alt="profile_image" src="{% media 'no_image.gif' %}" />
-                {% endif %}
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="inputLoadPic">Load profile picture</label>
-            <div class="controls">
-                <a class="file-input-wrapper btn btn-default "><span>Browse</span><input type="file" name="inputLoadPic" ></a>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="inputFirstName">First name</label>
-            <div class="controls">
-                <input type="text" name="inputFirstName" placeholder="First name" value="{{ user.first_name }}">
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="inputLastName">Last name</label>
-            <div class="controls">
-                <input type="text" name="inputLastName" placeholder="Last name" value="{{ user.last_name }}">
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="inputEmail">Email</label>
-            <div class="controls">
-                <input type="text" name="inputEmail" placeholder="Email" value="{{ user.email }}">
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="inputAbout">About yourself</label>
-            <div class="controls">
-                <textarea name="inputAbout" placeholder="About yourself" rows="4">{{ user.user_detail.about }}</textarea>
-            </div>
-        </div>
-        <button type="submit" class="btn">Save</button>
-    </form>
+
+    <h2>Profile</h2>
+    {% for field in form %}
+        {{ field.error }}
+    {% endfor %}
     {% endcomment %}
 
+    <form enctype="multipart/form-data" action="{% url 'login:edit' %}" method="post">
+    {% csrf_token %}
+        {{ form }}
+        <br>
+        <input type="submit" value="Update" class="btn" />
+    </form>
 {% endblock %}

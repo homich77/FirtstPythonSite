@@ -27,6 +27,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'south',
     'apps.polls',
     'apps.cookies',
     'apps.cookies.templatetags',
@@ -90,7 +91,8 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-#AUTH_USER_MODEL = 'login.User'
+#AUTH_USER_MODEL = 'login.CustomUser'
+AUTH_PROFILE_MODULE = 'login.UserProfile'
 DJANGO_SETTINGS_MODULE = 'mysite.settings'
 
 

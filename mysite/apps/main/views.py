@@ -10,4 +10,6 @@ class IndexView(generic.ListView):
     context_object_name = 'best_cookie_list'
 
     def get_queryset(self):
-        return Cookie.objects.annotate(average_mark=Avg('review__mark')).filter(average_mark__gte=4).order_by('-average_mark')
+        return Cookie.objects.annotate(average_mark=Avg('review__mark'))\
+                             .filter(average_mark__gte=4)\
+                             .order_by('-average_mark')

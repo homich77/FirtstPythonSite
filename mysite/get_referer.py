@@ -1,7 +1,8 @@
 import re
 
+
 def get_referer_view(request, default=None):
-    ''' 
+    '''
     Return the referer view of the current request
 
     Example:
@@ -19,7 +20,8 @@ def get_referer_view(request, default=None):
 
     # remove the protocol and split the url at the slashes
     referer = re.sub('^https?:\/\/', '', referer).split('/')
-    if request.META.get('SERVER_NAME') != 'localhost' and referer[0] != request.META.get('SERVER_NAME'):
+    if request.META.get('SERVER_NAME') != 'localhost' \
+            and referer[0] != request.META.get('SERVER_NAME'):
         return default
 
     # add the slash at the relative path's view and finished

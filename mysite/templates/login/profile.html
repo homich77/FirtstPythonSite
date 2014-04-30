@@ -16,8 +16,8 @@
        <div class="row">
             <label class="span2">Profile picture</label>
             <div class="span3">
-                {% if user_data.user_detail.ava %}
-                    <img alt="profile_image" style="height: 100px" src="{% media user_data.user_detail.ava %}" />
+                {% if user_data.profile.ava %}
+                    <img alt="profile_image" style="height: 100px" src="{% media user_data.profile.ava %}" />
                 {% else %}
                     <img alt="profile_image" src="{% media 'no_image.gif' %}" />
                 {% endif %}
@@ -44,7 +44,7 @@
         <div class="row">
             <label class="span2">About yourself</label>
             <div class="span3">
-                {{ user_data.user_detail.about }}
+                {{ user_data.profile.about }}
             </div>
         </div>
 
