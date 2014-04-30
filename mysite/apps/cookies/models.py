@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.db import models
 from templatetags.media import media
-from django.contrib.auth.models import User
+
+from .managers import CookieManager, ReviewManager
 
 
 class Cookie(models.Model):
@@ -9,11 +10,14 @@ class Cookie(models.Model):
     img = models.ImageField(upload_to='.')
     description = models.CharField(max_length=2048)
 
+    objects = CookieManager()
+
     def __unicode__(self):
         return self.name
 
     def admin_image(self):
         return '<img style="height:100px" src="%s"/>' % media(self.img)
+
     admin_image.allow_tags = True
     admin_image.short_description = 'Image'
 
@@ -24,6 +28,8 @@ class Review(models.Model):
     text = models.TextField()
     mark = models.IntegerField()
     date = models.DateTimeField()
+
+    objects = ReviewManager()
 
     def __unicode__(self):
         return self.text

@@ -51,11 +51,8 @@ def create(request):
 def profile(request, user_name):
     user_obj = get_object_or_404(User, username=user_name)
 
-    best_cookies = Cookie.objects.filter(review__user_id=user_obj)\
-                                 .filter(review__mark__gte=4)\
-                                 .order_by("-review__mark")[:10]
-    latest_reviews = Review.objects.filter(user_id=user_obj)\
-                                   .order_by("-date")[:10]
+    best_cookies = Cookie.objects.best(user_obj)
+    latest_reviews = Review.objects.latest_review(user_obj)
 
     context = {'user_data': user_obj,
                'best_cookies': best_cookies,

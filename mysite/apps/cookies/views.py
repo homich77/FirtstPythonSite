@@ -4,14 +4,13 @@ from django.template import RequestContext
 from django.views import generic
 from django.core.urlresolvers import reverse
 from django.utils import timezone
-from django.db.models import Avg
 
 from apps.cookies.models import Review, Cookie
 
 
 def search(request):
     template = "cookies/index.html"
-    cookies_list = Cookie.objects.annotate(average_mark=Avg('review__mark'))
+    cookies_list = Cookie.objects.all()
 
     if request.method == 'POST' \
             and 'search_cookie' in request.POST\
@@ -21,7 +20,7 @@ def search(request):
         cookies_list = cookies_list.filter(name__icontains=search_cookie)
     return render_to_response(template,
                               {'cookies_list': cookies_list},
-                              context_instance=RequestContext(request))
+                              RequestContext(request))
 
 
 class DetailView(generic.DetailView):
@@ -31,18 +30,16 @@ class DetailView(generic.DetailView):
     def get_queryset(self):
         #return Cookie.objects.annotate(avg_mark=Avg('review__mark'),
                                         # mark_of_user=)
-        return Cookie.objects.annotate(avg_mark=Avg('review__mark'))
+        return Cookie.objects.all()
 
 
 def vote(request, cookie_id):
     cookie_obj = get_object_or_404(Cookie, pk=cookie_id)
     mark = request.POST["mark"]
     if 0 < mark < 5:
-        r = Review(user_id=request.user,
-                   cookie_id=cookie_obj,
+        r = Review(user_id=request.user, cookie_id=cookie_obj,
                    text=request.POST["description"],
-                   mark=mark,
-                   date=timezone.now())
+                   mark=mark, date=timezone.now())
         r.save()
     else:
         messages.error(request, 'Mark must be between 0 and 5')

@@ -15,19 +15,6 @@ class UserForm(ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'email']
 
-'''
-class UserDetailForm(UserForm):
-
-    class Meta(UserForm.Meta):
-        model = UserDetail
-        fields = ['ava', 'about']
-        widgets = {
-            'about': Textarea(attrs={'rows': 4})
-        }
-        labels = {
-            'ava': 'Profile picture'
-        }'''
-
 
 class UserProfileForm(forms.ModelForm):
 
