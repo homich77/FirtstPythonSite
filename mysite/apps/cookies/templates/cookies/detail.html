@@ -2,6 +2,15 @@
 {% load media %}
 
 {% block title %}{{ cookie.name }}{% endblock %}
+
+{% block head %}
+    <style type="text/css">
+        textarea {
+            width: auto;
+        }
+    </style>
+{% endblock %}
+
 {% block form_name %}{{ cookie.name }}{% endblock %}
 
 {% block content %}

@@ -36,7 +36,8 @@ def detail(request, pk):
         'user_cookie': user_cookie,
         'form_review': ReviewForm()
     }
-    return render_to_response('cookies/detail.html', context, RequestContext(request))
+    return render_to_response('cookies/detail.html', context,
+                              RequestContext(request))
 
 
 def vote(request, cookie_id):

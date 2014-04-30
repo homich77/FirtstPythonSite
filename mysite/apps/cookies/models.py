@@ -29,7 +29,7 @@ class Review(models.Model):
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL)
     cookie_id = models.ForeignKey(Cookie)
     text = models.TextField("Description")
-    SCORE_CHOICES = [(i,i) for i in range(6)[::-1]]
+    SCORE_CHOICES = [(i, i) for i in range(6)[::-1]]
     mark = models.IntegerField(choices=SCORE_CHOICES)
     date = models.DateTimeField(default=timezone.now())
 
