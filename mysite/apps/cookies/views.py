@@ -40,10 +40,9 @@ def detail(request, pk):
 def vote(request, cookie_id):
     cookie_obj = get_object_or_404(Cookie, pk=cookie_id)
     form = ReviewForm(request.POST)
-    if request.method == "POST":
-        if form.is_valid():
-            form.save(request.user, cookie_obj)
-            messages.success(request, 'Your vote has been added')
-        else:
-            messages.error(request, form.errors)
+    if form.is_valid():
+        form.save(request.user, cookie_obj)
+        messages.success(request, 'Your vote has been added')
+    else:
+        messages.error(request, form.errors)
     return redirect(get_referer_view(request))

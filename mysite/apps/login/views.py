@@ -15,14 +15,10 @@ from apps.login.forms import UserMultiForm
 
 def user_login(request):
     template = 'login/login.html'
-    form = None
-    if request.method == "GET":
-        form = AuthenticationForm()
-    else:
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            auth.login(request, form.get_user())
-            return redirect(get_referer_view(request))
+    form = AuthenticationForm(data=(request.POST or None))
+    if form.is_valid():
+        auth.login(request, form.get_user())
+        return redirect(get_referer_view(request))
     return render_to_response(template,
                               {'form': form},
                               RequestContext(request))
@@ -30,14 +26,12 @@ def user_login(request):
 
 def create(request):
     template = 'login/create.html'
-    form = UserCreationForm()
+    form = UserCreationForm(request.POST or None)
 
-    if request.method == "POST" and not request.user.id:
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'You have successfully registered')
-            return redirect(reverse("login:user_login"))
+    if not request.user.id and form.is_valid():
+        form.save()
+        messages.success(request, 'You have successfully registered')
+        return redirect("login:user_login")
     elif request.user.id:
         messages.success(request, 'You have already registered')
     return render_to_response(template,
@@ -69,8 +63,8 @@ def edit(request):
                              instance=request.user)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Data has been saved')
-            return redirect(reverse('login:edit'))
+            messages.success(request, 'Data has been saved successfully')
+            return redirect('login:edit')
 
     return render_to_response('login/edit.html',
                               {'form': form},
