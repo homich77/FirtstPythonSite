@@ -23,25 +23,9 @@ def user_login(request):
         if form.is_valid():
             auth.login(request, form.get_user())
             return redirect(get_referer_view(request))
-
-
-    '''
-    if request.method == "POST":
-        if request.user.is_anonymous():
-            try:
-                username = request.POST['inputUserName']
-                password = request.POST['inputPassword']
-                user = auth.authenticate(username=username, password=password)
-
-                if user and user.is_active:
-                    auth.login(request, user)
-                    return redirect(get_referer_view(request))
-                elif user is None:
-                    messages.error(request, 'User name and password do not match')
-            except:
-                messages.error(request, 'You have mistake.')
-    '''
-    return render_to_response(template, {'form': form}, RequestContext(request))
+    return render_to_response(template,
+                              {'form': form},
+                              RequestContext(request))
 
 
 def create(request):

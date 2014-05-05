@@ -21,7 +21,7 @@ class CookieManager(models.Manager):
         cookie = self.get_query_set()
         return cookie.filter(review__user_id=user_obj,
                              review__mark__gte=self.rating_from)\
-                     .order_by("-review__mark")  #[:self.rating_top]
+                     .order_by("-review__mark")
 
 
 class ReviewManager(models.Manager):

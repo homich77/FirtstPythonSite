@@ -10,21 +10,6 @@
         {{ form }}
         <br>
         <button type="submit" class="btn">Enter</button>
-        {% comment %}
-        <div class="control-group">
-            <label class="control-label" for="inputUserName">User name</label>
-            <div class="controls">
-                <input type="text" name="inputUserName" placeholder="User name">
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="inputPassword">Password</label>
-            <div class="controls">
-                <input type="password" name="inputPassword" placeholder="Password">
-            </div>
-            <button type="submit" class="btn">Enter</button>
-        </div>
-        {% endcomment %}
     </form>
     {% else %}
         Welcome to mysite, {{ user.username }}

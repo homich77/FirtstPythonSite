@@ -1,5 +1,4 @@
 import os
-from django.core.urlresolvers import reverse_lazy
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -105,4 +104,3 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 
 LOGIN_URL = '/login/'
-
