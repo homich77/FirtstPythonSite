@@ -4,7 +4,6 @@ from django.template import RequestContext
 from django.contrib import auth
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib import messages
-from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
@@ -36,12 +35,14 @@ def create(request):
     template = 'login/create.html'
     form = UserCreationForm()
 
-    if request.method == "POST":
+    if request.method == "POST" and not request.user.id:
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'You have successfully registered')
             return redirect(reverse("login:user_login"))
+    elif request.user.id:
+        messages.success(request, 'You have already registered')
     return render_to_response(template,
                               {'form': form},
                               RequestContext(request))
@@ -62,7 +63,7 @@ def profile(request, user_name):
                               RequestContext(request))
 
 
-#@login_required
+@login_required(redirect_field_name=None)
 def edit(request):
     form = UserMultiForm(instance=request.user)
     if request.method == 'POST':

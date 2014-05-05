@@ -54,13 +54,11 @@ input[type=button], input[type=submit]{
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
-.btn:hover{
+.btn:hover, .btn:focus{
     color: #FFE4B5;
     background-color: darkgreen;
     *background-color: darkgreen;
 }
-
-
 
 
 .table-hover tr:hover td{

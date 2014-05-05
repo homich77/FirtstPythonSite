@@ -1,13 +1,10 @@
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
-from django.views import generic
-from django.core.urlresolvers import reverse
-
 
 from get_referer import get_referer_view
 
-from apps.cookies.models import Review, Cookie
+from apps.cookies.models import Cookie
 from apps.cookies.forms import ReviewForm
 
 
