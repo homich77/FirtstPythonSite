@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
 from django.contrib import auth
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -15,7 +15,17 @@ from apps.login.forms import UserMultiForm
 
 def user_login(request):
     template = 'login/login.html'
+    form = None
+    if request.method == "GET":
+        form = AuthenticationForm()
+    else:
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            auth.login(request, form.get_user())
+            return redirect(get_referer_view(request))
 
+
+    '''
     if request.method == "POST":
         if request.user.is_anonymous():
             try:
@@ -26,9 +36,12 @@ def user_login(request):
                 if user and user.is_active:
                     auth.login(request, user)
                     return redirect(get_referer_view(request))
+                elif user is None:
+                    messages.error(request, 'User name and password do not match')
             except:
                 messages.error(request, 'You have mistake.')
-    return render_to_response(template, RequestContext(request))
+    '''
+    return render_to_response(template, {'form': form}, RequestContext(request))
 
 
 def create(request):
