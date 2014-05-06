@@ -25,8 +25,9 @@ class CookieManager(models.Manager):
 
 
 class ReviewManager(models.Manager):
+    latest_count = 10
 
     def latest_review(self, user_obj):
         return super(ReviewManager, self).get_query_set()\
                                          .filter(user_id=user_obj)\
-                                         .order_by("-date")[:10]
+                                         .order_by("-date")[:self.latest_count]

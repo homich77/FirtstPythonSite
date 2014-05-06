@@ -1,4 +1,14 @@
 from django.test import TestCase
+from django.contrib.auth.models import User
+
+
+def create_user(username='test_user'):
+    return User.objects.create_user(username=username)
+
+
+class MainTest(TestCase):
+    def setUp(self):
+        self.user = create_user()
 
 
 class UrlTest(TestCase):
