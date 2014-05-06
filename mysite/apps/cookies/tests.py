@@ -1,8 +1,10 @@
 import random
 from django.core.urlresolvers import reverse
+from django.utils.http import urlsafe_base64_decode
 
 from apps.cookies.models import Cookie, Review
 from apps.main.tests import MainTest, create_user
+from apps.cookies.views import vote
 
 
 def create_cookie(name='test_cookie', description='description test cookie'):
@@ -66,6 +68,50 @@ class CookieTest(MainTest):
         self.assertIn(review_temp.cookie_id,
                       response.context['best_cookies'])
 
+    def test_search(self):
+        create_cookies(5)
+        response = self.client.post('/cookies/', {'search_cookie': 'kie1'})
+        self.assertIsNotNone(response.context['cookies_list'])
+        response = self.client.post('/cookies/', {'search_cookie': 'muf'})
+        self.assertFalse(response.context['cookies_list'])
+
+    def test_detail(self):
+        cookie = create_cookie('muf', 'description muf')
+        response = self.client.get(reverse('cookies:detail',
+                                           args=(cookie.id, )))
+        self.assertContains(response, cookie.description)
+
+    def test_vote_invalid(self):
+        cookie = create_cookie()
+        url_vote = reverse('cookies:vote', args=(cookie.id, ))
+        self.client.login(username=self.user.username, password='qwe')
+        context = {'mark': 10, 'text': 'Hello from Test )'}
+
+        response = self.client.post(url_vote, context)
+        self.assertContains(response, 'Select a valid choice. 10 is ',
+                            status_code=200)
+
+    '''def test_vote_valid(self):
+        cookie = create_cookie()
+        url_vote = reverse('cookies:vote', args=(cookie.id, ))
+        url_detail = reverse('cookies:detail', args=(cookie.id, ))
+        self.client.login(username=self.user.username, password='qwe')
+
+        context = {'mark': 5, 'text': 'Hello with valid data )'}
+        response = self.client.post(url_vote, context, follow=True)
+        self.assertNotContains(response, 'Add review')'''
+
+    def test_vote_anonymous(self):
+        cookie = create_cookie()
+        url_vote = reverse('cookies:vote', args=(cookie.id, ))
+        url_detail = reverse('cookies:detail', args=(cookie.id, ))
+        context = {'mark': 5, 'text': 'Hello from anonymous)'}
+        response = self.client.get(url_detail)
+        self.assertNotContains(response, 'Add review')
+
+        response = self.client.post(url_vote, context)
+        self.assertNotContains(response, 'Add review')
+
 
 class ReviewTest(MainTest):
     def test_create_review(self):
@@ -75,10 +121,6 @@ class ReviewTest(MainTest):
         review_from_database = Review.objects.get(pk=review.id)
         self.assertTrue(review_from_database,
                         '--- Review was not created correctly')
-        # Text field cannot be empty
-        '''review.text=''
-        review.save()
-        self.assertFalse(Review.objects.filter(text=''))'''
 
     def test_latest_review(self):
         for cookie in create_cookies(15):
